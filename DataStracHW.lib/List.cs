@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataStracHW.lib
 {
-    public class List
+    public class List : IList
     {
         private object[] _items;
         private int _count;

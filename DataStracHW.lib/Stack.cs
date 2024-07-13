@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStracHW.lib.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataStracHW.lib
 {
-    public class Stack
+    public class Stack : IStack
     {
         private object[] _items;
         private int _count;
@@ -50,6 +51,20 @@ namespace DataStracHW.lib
             }
             return _items[_count - 1];
         }
+        public object Pop()
+        {
+            if (_count == 0)
+            {
+                Console.WriteLine("Стек порожній.");
+                return null;
+            }
+
+            object item = _items[_count - 1];
+            _items[_count - 1] = null;
+            _count--;
+            return item;
+        }
+
         public object[] ToArray()
         {
             object[] newArray = new object[_count];

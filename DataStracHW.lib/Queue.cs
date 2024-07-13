@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStracHW.lib.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataStracHW.lib
 {
-    public class Queue
+    public class Queue : IQueue
     {
         private object[] _items;
         private int _head;
@@ -19,6 +20,29 @@ namespace DataStracHW.lib
             _head = 0;
             _tail = 0;
             _count = 0;
+        }
+
+        public void Enqueue(object item)
+        {
+            EnsureCapacity(_count + 1);
+            _items[_tail] = item;
+            _tail = (_tail + 1) % _items.Length;
+            _count++;
+        }
+
+        public object Dequeue()
+        {
+            if (_count == 0)
+            {
+                Console.WriteLine("Черга порожня.");
+                return null;
+            }
+
+            object item = _items[_head];
+            _items[_head] = null;
+            _head = (_head + 1) % _items.Length;
+            _count--;
+            return item;
         }
 
         public int Count
@@ -48,6 +72,7 @@ namespace DataStracHW.lib
             }
             return false;
         }
+
         public object Peek()
         {
             if (_count == 0)
@@ -68,6 +93,20 @@ namespace DataStracHW.lib
             return newArray;
         }
 
+        private void EnsureCapacity(int capacity)
+        {
+            if (_items.Length < capacity)
+            {
+                int newCapacity = _items.Length == 0 ? 4 : _items.Length * 2;
+                object[] newItems = new object[newCapacity];
+                for (int i = 0; i < _count; i++)
+                {
+                    newItems[i] = _items[(_head + i) % _items.Length];
+                }
+                _items = newItems;
+                _head = 0;
+                _tail = _count;
+            }
+        }
     }
 }
-
