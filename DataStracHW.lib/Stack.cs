@@ -68,7 +68,7 @@ namespace DataStracHW.lib
             }
             _count = 0;
         }
-
+    
         public bool Contains(object item)
         {
             for (int i = 0; i < _count; i++)
