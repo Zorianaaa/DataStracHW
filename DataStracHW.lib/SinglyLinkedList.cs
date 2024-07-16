@@ -8,7 +8,7 @@ namespace DataStracHW.lib
 {
     public class SinglyLinkedListNode
     {
-        public object Data { get; set; }
+        public object Data { get; }
         public SinglyLinkedListNode Next { get; set; }
 
         public SinglyLinkedListNode(object data)

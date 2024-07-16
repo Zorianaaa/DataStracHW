@@ -68,7 +68,7 @@ namespace DataStracHW.lib
             }
             _count = 0;
         }
-    
+
         public bool Contains(object item)
         {
             for (int i = 0; i < _count; i++)
@@ -79,6 +79,20 @@ namespace DataStracHW.lib
                 }
             }
             return false;
+        }
+
+        public object Pop()
+        {
+            if (_count == 0)
+            {
+                Console.WriteLine("Стек порожній.");
+                return null;
+            }
+
+            _count--;
+            object item = _items[_count];
+            _items[_count] = null;
+            return item;
         }
     }
 }

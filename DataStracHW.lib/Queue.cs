@@ -68,6 +68,38 @@ namespace DataStracHW.lib
             return newArray;
         }
 
+        public void Enqueue(object item)
+        {
+            if (_count == _items.Length)
+            {
+                int newLength = _items.Length * 2;
+                object[] newArray = new object[newLength];
+                for (int i = 0; i < _count; i++)
+                {
+                    newArray[i] = _items[(_head + i) % _items.Length];
+                }
+                _items = newArray;
+                _head = 0;
+                _tail = _count;
+            }
+            _items[_tail] = item;
+            _tail = (_tail + 1) % _items.Length;
+            _count++;
+        }
+        public object Dequeue()
+        {
+            if (_count == 0)
+            {
+                Console.WriteLine("Черга порожня.");
+                return null;
+            }
+            object item = _items[_head];
+            _items[_head] = null;
+            _head = (_head + 1) % _items.Length;
+            _count--;
+            return item;
+        }
+
     }
 }
 
