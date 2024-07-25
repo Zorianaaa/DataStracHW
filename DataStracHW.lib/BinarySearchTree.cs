@@ -68,8 +68,8 @@ namespace DataStracHW.lib
             }
 
             return value < current.Data
-                ? ContainsRecursive(current.Left, value)
-                : ContainsRecursive(current.Right, value);
+                 ? ContainsRecursive(current.Left, value)
+                 : ContainsRecursive(current.Right, value);
 
         }
 
@@ -91,9 +91,9 @@ namespace DataStracHW.lib
         {
             if (current != null)
             {
-                ToArrayRecursive(current.Left, array, ref index);
+                ToArrayRecursive(current.Left,  array, ref index);
                 array[index++] = current.Data;
-                ToArrayRecursive(current.Right, array, ref index);
+                ToArrayRecursive(current.Right,  array, ref index);
             }
         }
     }

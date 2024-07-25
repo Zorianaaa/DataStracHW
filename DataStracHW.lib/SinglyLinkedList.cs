@@ -1,4 +1,5 @@
-﻿using DataStracHW.lib.Interface;
+﻿using DataStracHW.lib.Generic;
+using DataStracHW.lib.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,26 +8,27 @@ using System.Threading.Tasks;
 
 namespace DataStracHW.lib
 {
-    public class SinglyLinkedListNode
+    public class SinglyLinkedListNode<T>
     {
-        public object Data { get; }
+        public object Data { get;}
         public SinglyLinkedListNode Next { get; set; }
 
-        public SinglyLinkedListNode(object data)
+        public SinglyLinkedListNode(T data)
         {
             Data = data;
             Next = null;
         }
     }
-    public class SinglyLinkedList : ISinglyLinkedList
+
+    public class SinglyLinkedList<T> : ISinglyLinkedList<T>
     {
-        public SinglyLinkedListNode First { get; private set; }
-        public SinglyLinkedListNode Last { get; private set; }
+        public SinglyLinkedListNode<T> First { get; private set; }
+        public SinglyLinkedListNode<T> Last { get; private set; }
         public int Count { get; private set; }
 
-        public void Add(object data)
+        public void Add(T data)
         {
-            var newNode = new SinglyLinkedListNode(data);
+            var newNode = new SinglyLinkedListNode<T>(data);
             if (First == null)
             {
                 First = Last = newNode;
@@ -38,12 +40,14 @@ namespace DataStracHW.lib
             }
             Count++;
         }
+
         public void Clear()
         {
             First = Last = null;
             Count = 0;
         }
-        public bool Contains(object data)
+
+        public bool Contains(T data)
         {
             var current = First;
             while (current != null)
@@ -57,9 +61,9 @@ namespace DataStracHW.lib
             return false;
         }
 
-        public object[] ToArray()
+        public T[] ToArray()
         {
-            object[] array = new object[Count];
+            T[] array = new T[Count];
             var current = First;
             for (int i = 0; i < Count; i++)
             {
