@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStracHW.lib.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace DataStracHW.lib
             Next = null;
         }
     }
-    public class SinglyLinkedList
+    public class SinglyLinkedList : ISinglyLinkedList
     {
         public SinglyLinkedListNode First { get; private set; }
         public SinglyLinkedListNode Last { get; private set; }
