@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataStracHW.lib.Event;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +13,20 @@ namespace DataStracHW.lib
         private T[] _items;
         private int _count;
 
+        public event EventHandler<DataStructureChangedEventArgs<T>> ListChanged;
+
+        protected virtual void OnListChanged(string action, T item)
+        {
+            ListChanged?.Invoke(this, new DataStructureChangedEventArgs<T>(action, item));
+        }
+
         public List(int capacity = 4)
         {
             _items = new T[capacity];
             _count = 0;
         }
 
-        public int Count
-        {
-            get { return _count; }
-        }
+        public int Count => _count;
 
         public bool IsReadOnly
         {
@@ -53,6 +58,7 @@ namespace DataStracHW.lib
             EnsureCapacity(_count + 1);
             _items[_count] = item;
             _count++;
+            OnListChanged("Add", item);
         }
 
         public void Insert(int index, T item)
@@ -69,6 +75,7 @@ namespace DataStracHW.lib
             }
             _items[index] = item;
             _count++;
+            OnListChanged("Insert", item);
         }
 
         public bool Remove(T item)
@@ -89,12 +96,14 @@ namespace DataStracHW.lib
                 throw new ArgumentOutOfRangeException("index");
             }
 
+            T removedItem = _items[index];
             for (int i = index; i < _count - 1; i++)
             {
                 _items[i] = _items[i + 1];
             }
             _items[_count - 1] = default(T);
             _count--;
+            OnListChanged("RemoveAt", removedItem);
         }
 
         public int IndexOf(T item)

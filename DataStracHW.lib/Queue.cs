@@ -1,4 +1,5 @@
-﻿using DataStracHW.lib.Generic;
+﻿using DataStracHW.lib.Event;
+using DataStracHW.lib.Generic;
 using DataStracHW.lib.Interface;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,13 @@ namespace DataStracHW.lib
         private int _tail;
         private int _count;
 
+        public event EventHandler<DataStructureChangedEventArgs<T>> QueueChanged;
+
+        protected virtual void OnQueueChanged(string action, T item)
+        {
+            QueueChanged?.Invoke(this, new DataStructureChangedEventArgs<T>(action, item));
+        }
+
         public Queue(int capacity = 4)
         {
             _items = new T[capacity];
@@ -29,6 +37,7 @@ namespace DataStracHW.lib
             _items[_tail] = item;
             _tail = (_tail + 1) % _items.Length;
             _count++;
+            OnQueueChanged("Enqueue", item);
         }
 
         public T Dequeue()
@@ -42,6 +51,7 @@ namespace DataStracHW.lib
             _items[_head] = default(T);
             _head = (_head + 1) % _items.Length;
             _count--;
+            OnQueueChanged("Dequeue", item);
             return item;
         }
 

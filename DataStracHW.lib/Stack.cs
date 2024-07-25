@@ -1,4 +1,5 @@
-﻿using DataStracHW.lib.Generic;
+﻿using DataStracHW.lib.Event;
+using DataStracHW.lib.Generic;
 using DataStracHW.lib.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace DataStracHW.lib
     {
         private T[] _items;
         private int _count;
+
+        public event EventHandler<DataStructureChangedEventArgs<T>> StackChanged;
+
+        protected virtual void OnStackChanged(string action, T item)
+        {
+            StackChanged?.Invoke(this, new DataStructureChangedEventArgs<T>(action, item));
+        }
 
         public Stack(int capacity = 4)
         {
@@ -29,6 +37,7 @@ namespace DataStracHW.lib
             EnsureCapacity(_count + 1);
             _items[_count] = item;
             _count++;
+            OnStackChanged("Push", item);
         }
 
         private void EnsureCapacity(int capacity)
@@ -64,6 +73,7 @@ namespace DataStracHW.lib
             T item = _items[_count - 1];
             _items[_count - 1] = default(T);
             _count--;
+            OnStackChanged("Pop", item);
             return item;
         }
 
